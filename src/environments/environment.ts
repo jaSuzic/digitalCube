@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: "https://todo.digitalcube.rs/api/todos",
+  loginUrl: "https://todo.digitalcube.rs/user/login",
+  logoutUrl: "https://todo.digitalcube.rs/user/logout"
 };
 
 /*
