@@ -21,22 +21,26 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onLogin(email: string, password: string) {
+  onLogin() {
     if (this.loginForm.invalid) return;
+    let email = this.loginForm.value.email;
+    let pass = this.loginForm.value.password;
+    console.log(
+      "TCL: LoginComponent -> onLogin -> this.loginForm",
+      this.loginForm
+    );
     this.isLoading = true;
-    this.authService
-      .loginUser(this.loginForm.value.email, this.loginForm.value.password)
-      .subscribe(
-        res => {
-          if (res) {
-            this.authService.processToken(res.token);
-            this.isLoading = false;
-          }
-        },
-        err => {
-          console.log(err);
+    this.authService.loginUser(email, pass).subscribe(
+      res => {
+        if (res) {
+          this.authService.processToken(res.token);
           this.isLoading = false;
         }
-      );
+      },
+      err => {
+        console.log("evo ga error: ", err);
+        this.isLoading = false;
+      }
+    );
   }
 }

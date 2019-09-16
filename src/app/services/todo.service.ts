@@ -15,4 +15,12 @@ export class TodoService {
   getAll() {
     return this.http.get<[Todo]>(BE_API);
   }
+
+  addNew(content: string) {
+    return this.http.put(BE_API, { content: content });
+  }
+
+  markItem(id: string, checked: boolean) {
+    return this.http.patch(BE_API + "/" + id, { done: checked });
+  }
 }

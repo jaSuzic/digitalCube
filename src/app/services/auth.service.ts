@@ -11,7 +11,7 @@ const LOGOUT_URL = environment.logoutUrl;
 })
 export class AuthService {
   private isAuth = false;
-  private token: string;
+  private token = "";
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -26,13 +26,13 @@ export class AuthService {
     this.token = token;
     if (this.token) {
       this.isAuth = true;
-      localStorage.setItem("token", this.token);
+      localStorage.setItem("token-digital-cube-todo-js", this.token);
       this.router.navigate(["/"]);
     }
   }
 
   autoAuthUser() {
-    const oldToken = localStorage.getItem("token");
+    const oldToken = localStorage.getItem("token-digital-cube-todo-js");
     if (!oldToken) return;
 
     this.token = oldToken;
@@ -48,7 +48,7 @@ export class AuthService {
   }
 
   clearAuthData() {
-    localStorage.removeItem("token");
+    localStorage.removeItem("token-digital-cube-todo-js");
   }
 
   getToken() {
