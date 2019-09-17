@@ -35,6 +35,33 @@ export class AllItemsComponent implements OnInit {
     });
   }
 
+  /* 
+  
+  votes.sort(function (vote1, vote2) {
+
+    // Sort by votes
+    // If the first item has a higher number, move it down
+    // If the first item has a lower number, move it up
+    if (vote1.votes > vote2.votes) return 1;
+    if (vote1.votes < vote2.votes) return -1;
+
+    // If the votes number is the same between both items, sort alphabetically
+    // If the first item comes first in the alphabet, move it up
+    // Otherwise move it down
+    if (vote1.title > vote2.title) return 1;
+    if (vote1.title < vote2.title) return -1;
+
+  });
+  
+  .sort((a, b) => {
+            a = new Date(a.created);
+            b = new Date(b.created);
+            return a > b ? -1 : a < b ? 1 : 0;
+          });
+
+    https://gomakethings.com/sorting-an-array-by-multiple-criteria-with-vanilla-javascript/
+  
+  */
   getAllItemsAndSort() {
     this.todoService.getAll().subscribe(
       res => {
