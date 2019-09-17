@@ -3,10 +3,13 @@ import { NgModule } from '@angular/core';
 import {
   MatButtonModule,
   MatCardModule,
+  MatDialogModule,
   MatFormFieldModule,
+  MatIconModule,
   MatInputModule,
   MatListModule,
   MatProgressSpinnerModule,
+  MatTooltipModule,
 } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,7 +22,10 @@ const modules = [
   MatCardModule,
   MatFormFieldModule,
   MatInputModule,
-  MatListModule
+  MatListModule,
+  MatIconModule,
+  MatTooltipModule,
+  MatDialogModule
 ];
 
 @NgModule({

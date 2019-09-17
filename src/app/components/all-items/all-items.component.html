@@ -1,8 +1,41 @@
-<mat-list>
-  <h3>TODO list</h3>
-  <mat-list-item *ngFor="let todo of todos">
-    <mat-checkbox [checked]="todo.done" (change)='onItemChecked(todo.id, $event.checked)'>
-      <h4 [class.done]="todo.done">{{todo.content}}</h4>
-    </mat-checkbox>
-  </mat-list-item>
-</mat-list>
+<mat-card class="wrapper mat-elevation-z5">
+  <div class='button-wrapper'>
+    <button mat-raised-button
+      (click)='openAddNew = !openAddNew; content=""'>{{openAddNew ? "Hide" : "Add new"}}</button>
+    <button mat-raised-button (click)='logout()'>Logout</button>
+  </div>
+  <div [hidden]='!openAddNew' class='add-new-wrapper'>
+    <div class="add-new-text-field">
+      <mat-form-field class='add-new-text-field'>
+        <input matInput type="text" placeholder="Enter text here" [(ngModel)]="content" />
+      </mat-form-field>
+      <button mat-raised-button [disabled]='!content || content===""' (click)='onAddNew()'>Save new item</button>
+    </div>
+  </div>
+  <mat-list class="mat-elevation-z2">
+    <mat-list-item *ngFor="let todo of todos; let odd=odd" [ngClass]='odd?"odd-row":""' class='list-item'>
+      <mat-checkbox [checked]="todo.done" (change)='onItemChecked(todo.id, $event.checked)'>
+        <h4 [class.done]="todo.done" class="checkbox">{{todo.content}}</h4>
+      </mat-checkbox>
+      <button mat-icon-button matTooltip="Remove this item" matTooltipPosition="after" (click)='onDeleteItem(todo.id)'>
+        <mat-icon class="delete-icon" color='warn'>delete</mat-icon>
+      </button>
+    </mat-list-item>
+  </mat-list>
+</mat-card>
+<!-- Modal for deleting item -->
+<ng-template #deleteModal>
+  <mat-card class="text-center">
+    <mat-card-title>Confirm delete</mat-card-title>
+    <mat-card-content>Are you sure that you want to delete this item?
+    </mat-card-content>
+    <mat-card-actions class='buttons-in-modal'>
+      <button mat-raised-button [mat-dialog-close]>
+        No
+      </button>
+      <button mat-raised-button color="warn" [mat-dialog-close]="true">
+        Yes
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</ng-template>

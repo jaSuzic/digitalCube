@@ -47,6 +47,10 @@ export class AuthService {
     return this.http.post(LOGOUT_URL, {});
   }
 
+  removeToken() {
+    localStorage.removeItem("token-digital-cube-todo-js");
+  }
+
   clearAuthData() {
     localStorage.removeItem("token-digital-cube-todo-js");
   }
