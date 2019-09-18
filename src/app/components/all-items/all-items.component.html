@@ -12,7 +12,15 @@
       <button mat-raised-button [disabled]='!content || content===""' (click)='onAddNew()'>Save new item</button>
     </div>
   </div>
-  <mat-list class="mat-elevation-z2">
+  <mat-list class="mat-elevation-z2 list">
+    <div class="list-wrap">
+      <div class="spinner">
+        <mat-spinner *ngIf="isLoading" diameter=80></mat-spinner>
+      </div>
+      <div class="empty" *ngIf='!todos || todos.length===0'>
+        EMPTY
+      </div>
+    </div>
     <mat-list-item *ngFor="let todo of todos; let odd=odd" [ngClass]='odd?"odd-row":""' class='list-item'>
       <mat-checkbox [checked]="todo.done" (change)='onItemChecked(todo.id, $event.checked)'>
         <h4 [class.done]="todo.done" class="checkbox">{{todo.content}}</h4>

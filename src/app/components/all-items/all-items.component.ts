@@ -16,8 +16,10 @@ export class AllItemsComponent implements OnInit {
   openAddNew: boolean = false;
   content: string = "";
   editContent: string = "";
+  isLoading: boolean = false;
+
+  //I didn't want to make new comp just for this, so I used ng-template for displaying confirmation dialog.
   @ViewChild("deleteModal", { static: false }) deleteModal;
-  @ViewChild("editModal", { static: false }) editModal;
 
   constructor(
     private todoService: TodoService,
@@ -35,41 +37,23 @@ export class AllItemsComponent implements OnInit {
     });
   }
 
-  /* 
-  
-  votes.sort(function (vote1, vote2) {
-
-    // Sort by votes
-    // If the first item has a higher number, move it down
-    // If the first item has a lower number, move it up
-    if (vote1.votes > vote2.votes) return 1;
-    if (vote1.votes < vote2.votes) return -1;
-
-    // If the votes number is the same between both items, sort alphabetically
-    // If the first item comes first in the alphabet, move it up
-    // Otherwise move it down
-    if (vote1.title > vote2.title) return 1;
-    if (vote1.title < vote2.title) return -1;
-
-  });
-  
-  .sort((a, b) => {
+  // Idea is to do double sort, firstly to show item that are unfinished and then to sort then from newest to oldest.
+  getAllItemsAndSort() {
+    this.isLoading = true;
+    this.todoService.getAll().subscribe(
+      res => {
+        this.isLoading = false;
+        this.todos = res["todos"].sort((a, b) => {
+          if (a.done === b.done) {
             a = new Date(a.created);
             b = new Date(b.created);
             return a > b ? -1 : a < b ? 1 : 0;
-          });
-
-    https://gomakethings.com/sorting-an-array-by-multiple-criteria-with-vanilla-javascript/
-  
-  */
-  getAllItemsAndSort() {
-    this.todoService.getAll().subscribe(
-      res => {
-        this.todos = res["todos"].sort((a, b) => {
-          return a.done === b.done ? 0 : a.done ? 1 : -1;
+          } else if (a.done) return 1;
+          else return -1;
         });
       },
       err => {
+        this.isLoading = false;
         console.log(err);
       }
     );
@@ -91,8 +75,6 @@ export class AllItemsComponent implements OnInit {
   onItemChecked(id: string, checked) {
     this.todoService.markItem(id, checked).subscribe(
       res => {
-        let index = this.todos.findIndex(item => item.id === +id);
-        this.todos[index].done = checked;
         this.todoService.updateList();
       },
       err => {
@@ -125,6 +107,7 @@ export class AllItemsComponent implements OnInit {
     );
   }
 
+  //Logout will simply send req to BE, then remove token from local storage and redirect user to login page.
   logout() {
     this.authService.logoutUser().subscribe(
       res => {

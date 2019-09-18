@@ -25,10 +25,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) return;
     let email = this.loginForm.value.email;
     let pass = this.loginForm.value.password;
-    console.log(
-      "TCL: LoginComponent -> onLogin -> this.loginForm",
-      this.loginForm
-    );
     this.isLoading = true;
     this.authService.loginUser(email, pass).subscribe(
       res => {
@@ -38,7 +34,7 @@ export class LoginComponent implements OnInit {
         }
       },
       err => {
-        console.log("evo ga error: ", err);
+        console.log("error: ", err);
         this.isLoading = false;
       }
     );
